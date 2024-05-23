@@ -47,6 +47,25 @@
             font-family: Georgia, 'Times New Roman', Times, serif;
             padding: 20px;
         }
+        .history{
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            padding: 5px 0;
+            font-size: large;
+        }
+        .delbut {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width:150px;
+        }
+        #mylist{
+            align-items: center;
+        }
     </style>
     
 </head>
@@ -83,7 +102,10 @@
         <td><input type="button" value="=" onclick="solve()"></td>
         <td><input type="button" value="+" onclick="dis('+')" onkeydown="myFunc(ev)"></td>
     </tr>
+    
 </table>
+<h1>History</h1>
+    <div id="mylist"> </div>
 <script>
     function dis(val){
         document.getElementById("result").value+=val
@@ -97,11 +119,24 @@
         )
         document.getElementById("result").value+=ev.key
     }
-    function solve(){
-        let x=document.getElementById("result").value
-        let y=math.evaluate(x)
-        document.getElementById("result").value=y
-    }
+    function solve() {
+            let x = document.getElementById("result").value;
+            let y = math.evaluate(x);
+            document.getElementById("result").value = y;
+            var z = document.createElement("div");
+            var t = document.createTextNode(x + " = " + y);
+            z.className="history";
+            var deleteButton = document.createElement("button");
+            deleteButton.innerHTML="Delete";
+            deleteButton.className="delbut";
+            deleteButton.onclick= function (){
+                z.remove();
+            }
+            z.appendChild(t);
+            z.appendChild(deleteButton);
+            document.getElementById("mylist").appendChild(z);
+        }
+        
     var cal=document.getElementById("calcu");
     cal.onkeyup=function(ev){
         if(ev.keyCode===13){
