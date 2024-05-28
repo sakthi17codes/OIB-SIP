@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+
+    <form action="/action_page.php" onsubmit="return submitdet()">
+      <h1>Login</h1>
+        <div class="imgcontainer">
+          <img src="https://cdn-icons-png.flaticon.com/256/295/295128.png" alt="Avatar" class="avatar">
+        </div>
+    
+        
+          <label for="uname"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" id="uname" required>
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" id="psw" required>
+          <input type="checkbox" checked="checked" name="remember" class="log"> Remember me
+          <a href="#" class="psw">Forgot password?</a>
+    
+          <button type="submit"  class="sub">Login</button>
+ 
+            
+            <a href="sign.html" class="sign">Dont have an account? Sign in</a>
+            
+
+            
+          <button type="button" onclick="cleardet()" class="cancelbtn">Clear details</button>
+          
+    
+      </form>
+      <script>
+        
+        function cleardet(){
+          var name=document.getElementById("uname");
+          var psw=document.getElementById("psw");
+          // Store the initial placeholder value
+          name.value = "";
+          psw.value="";  // Clear the value of the username field
+          name.placeholder = "Enter Username"; 
+          psw.placeholder="Enter Password";
+        }
+        function submitdet(){
+          event.preventDefault();
+          var numbers = /[0-9]/g;
+          var upper = /[A-Z]/g;
+          var lower = /[a-z]/g;
+          var psw=document.getElementById("psw");
+          if(psw.value.length<8 ||
+           !psw.value.match(numbers) || 
+           !psw.value.match(upper) || !psw.value.match(lower)){
+            alert("Password and email does not match");
+            cleardet();
+            return false;
+          }
+          else{
+            window.location.href="success.html";
+        }
+      }
+     
+        </script>
+
+</body>
+</html>
