@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script src= 
+    "https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"
+            integrity= 
+    "sha512-BbVEDjbqdN3Eow8+empLMrJlxXRj5nEitiCAK5A1pUr66+jLVejo3PmjIaucRnjlB0P9R3rBUs3g5jXc8ti+fQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script> 
+    <style>
+        *{
+            background-color: beige;
+            
+        
+        }
+        table{
+            border:1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+            padding:20px;
+
+        }
+       input[type ="button"]{
+            background-color: green;
+            width:100%;
+            padding:30px 60px;
+            text-align: center;
+            font-size: 25px;
+            color:aliceblue;
+            border:none;
+            border-radius: 15px;
+        }
+        input[type="text"]{
+            background-color: aliceblue;
+            padding:25px 47px;
+            border:4px solid black;
+            border-radius: 15px;
+            color:black;
+            width:75%;
+            font-size: x-large;
+        }
+        h1{
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            padding: 20px;
+        }
+        .history{
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            padding: 5px 0;
+            font-size: large;
+        }
+        .delbut {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width:150px;
+           
+        }
+        #mylist{
+            align-items: center;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Online Calculator</h1>
+    <table id="calcu">
+    <tr>
+        <td colspan="3">
+            <input type="text" id="result">
+        </td>
+        <td><input type="button" id="but" value="C" onclick="clr()"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="1" onclick="dis('1')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="2" onclick="dis('2')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="3" onclick="dis('3')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="/" onclick="dis('/')" onkeydown="myFunc(ev)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="4" onclick="dis('4')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="5" onclick="dis('5')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="6" onclick="dis('6')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="*" onclick="dis('*')" onkeydown="myFunc(ev)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="7" onclick="dis('7')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="8" onclick="dis('8')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="9" onclick="dis('9')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="-" onclick="dis('-')" onkeydown="myFunc(ev)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="0" onclick="dis('0')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="." onclick="dis('.')" onkeydown="myFunc(ev)"></td>
+        <td><input type="button" value="=" onclick="solve()"></td>
+        <td><input type="button" value="+" onclick="dis('+')" onkeydown="myFunc(ev)"></td>
+    </tr>
+    
+</table>
+<h1>History</h1>
+    <div id="mylist"> </div>
+<script>
+    function dis(val){
+        document.getElementById("result").value+=val
+    }
+    function myFunc(ev){
+        if(ev.key=='0'||ev.key=='1'||ev.key=='2'||
+        ev.key=='3'||ev.key=='4'||ev.key=='5'||
+        ev.key=='6'||ev.key=='7'||ev.key=='8'||
+        ev.key=='9'||ev.key=='+'||ev.key=='-'||
+        ev.key=='*'||ev.key=='/'
+        )
+        document.getElementById("result").value+=ev.key
+    }
+    function solve() {
+    let x = document.getElementById("result").value;
+    let y = math.evaluate(x);
+    document.getElementById("result").value = y;
+    
+    var z = document.createElement("div");
+    var t = document.createTextNode(x + " = " + y);
+    z.className = "history";
+    
+    var deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "Delete";
+    deleteButton.className = "delbut";
+    deleteButton.onclick = function () {
+        z.remove();
+    }
+    
+    z.appendChild(t);
+    z.appendChild(deleteButton);
+    
+    var mylist = document.getElementById("mylist");
+    mylist.insertBefore(z, mylist.firstChild);
+}
+
+        
+    var cal=document.getElementById("calcu");
+    cal.onkeyup=function(ev){
+        if(ev.keyCode===13){
+            console.log("enter");
+            let x=document.getElementById("result").value
+            console.log(x);
+            solve();
+        }
+
+    }
+    function clr(){
+        document.getElementById("result").value=" ";
+    }
+</script>
+</body>
+</html>
