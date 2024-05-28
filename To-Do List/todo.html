@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>My To-Do List</h2>
+        <input type="text" id="mylist" placeholder="Enter Your Tasks">
+        <span onclick="newEle()" class="addbtn" >Add</span>
+    </header>
+  <ul id="myul"></ul>
+    <script>
+        function newEle(){
+            var ul=document.getElementById("myul");
+            var b=document.createElement("p");
+            var c =document.getElementById("mylist");
+           
+           
+            if (c.value.trim() === ""){
+                alert("You must write something");
+            }
+            else{
+                b.innerHTML=c.value+"<button onclick='dele(event)' class='delbtn' >Delete</button>"+"<button onclick='comp(event)' class='compbtn' >Completed</button>";
+                ul.append(b);
+                c.value=" ";
+            }
+            
+        }
+        function dele(event){
+            event.target.parentElement.remove();
+        }
+        function comp(event){
+            var listItem = event.target.parentElement;
+            event.target.parentElement.style.textDecoration = "line-through";
+            document.getElementById("myul").appendChild(listItem);
+        }
+    </script>
+
+</body>
+</html>
