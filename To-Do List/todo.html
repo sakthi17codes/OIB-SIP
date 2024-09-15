@@ -10,35 +10,91 @@
     <header>
         <h2>My To-Do List</h2>
         <input type="text" id="mylist" placeholder="Enter Your Tasks">
-        <span onclick="newEle()" class="addbtn" >Add</span>
+        <span onclick="newEle()" class="addbtn">Add</span>
     </header>
-  <ul id="myul"></ul>
+    <ul id="myul"></ul>
+    
     <script>
-        function newEle(){
-            var ul=document.getElementById("myul");
-            var b=document.createElement("p");
-            var c =document.getElementById("mylist");
-           
-           
-            if (c.value.trim() === ""){
+        // Load tasks from localStorage when the page loads
+        window.onload = function() {
+            loadTasks();
+        }
+
+        // Function to add a new task
+        function newEle() {
+            var ul = document.getElementById("myul");
+            var c = document.getElementById("mylist");
+
+            if (c.value.trim() === "") {
                 alert("You must write something");
-            }
-            else{
-                b.innerHTML=c.value+"<button onclick='dele(event)' class='delbtn' >Delete</button>"+"<button onclick='comp(event)' class='compbtn' >Completed</button>";
+            } else {
+                // Create task element
+                var b = document.createElement("p");
+                b.innerHTML = c.value + 
+                              "<button onclick='dele(event)' class='delbtn'>Delete</button>" + 
+                              "<button onclick='comp(event)' class='compbtn'>Completed</button>";
+                
+                // Append to the task list
                 ul.append(b);
-                c.value=" ";
+
+                // Save to localStorage
+                saveTasks();
+
+                // Clear input
+                c.value = "";
             }
-            
         }
-        function dele(event){
+
+        // Function to delete a task
+        function dele(event) {
             event.target.parentElement.remove();
+            saveTasks(); // Update localStorage after deletion
         }
-        function comp(event){
+
+        // Function to mark a task as completed
+        function comp(event) {
             var listItem = event.target.parentElement;
-            event.target.parentElement.style.textDecoration = "line-through";
+            listItem.style.textDecoration = "line-through";
             document.getElementById("myul").appendChild(listItem);
+            saveTasks(); // Update localStorage after marking as completed
+        }
+
+        // Function to save tasks to localStorage
+        function saveTasks() {
+            var ul = document.getElementById("myul");
+            var tasks = [];
+            var listItems = ul.getElementsByTagName("p");
+
+            for (var i = 0; i < listItems.length; i++) {
+                tasks.push({
+                    text: listItems[i].childNodes[0].nodeValue, // Task text
+                    completed: listItems[i].style.textDecoration === "line-through" // Check if task is completed
+                });
+            }
+
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        // Function to load tasks from localStorage
+        function loadTasks() {
+            var tasks = JSON.parse(localStorage.getItem("tasks"));
+            var ul = document.getElementById("myul");
+
+            if (tasks) {
+                tasks.forEach(function(task) {
+                    var b = document.createElement("p");
+                    b.innerHTML = task.text + 
+                                  "<button onclick='dele(event)' class='delbtn'>Delete</button>" + 
+                                  "<button onclick='comp(event)' class='compbtn'>Completed</button>";
+
+                    if (task.completed) {
+                        b.style.textDecoration = "line-through";
+                    }
+
+                    ul.append(b);
+                });
+            }
         }
     </script>
-
 </body>
 </html>
